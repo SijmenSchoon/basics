@@ -1,0 +1,28 @@
+name: Basics
+version: 0.1
+main: cc.co.vijfhoek.basics.Basics
+commands:
+  ext:
+    description: Extinguish all fire on the server
+    usage: /<command>
+  extinguish:
+    description: Extinguish all fire on the server
+    usage: /<command>
+  extplayer:
+    description: Extinguish a player
+    usage: /<command> <player>
+  
+  stopfire:
+    description: Stop the fire-spread on the current world
+    usage: /<command>
+  startfire:
+    description: Continue the firespread on the current world
+    usage: /<command>
+    
+  spawn:
+    description: Go to the spawnpoint
+    usage: /<command>
+    
+  spawnmob:
+    description: Spawn a mob
+    usage: /<command> <mob>
