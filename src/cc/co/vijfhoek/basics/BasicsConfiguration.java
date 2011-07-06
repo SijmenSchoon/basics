@@ -26,6 +26,30 @@ public class BasicsConfiguration {
 		return config;
 	}
 	
+	public String convertStreamToString(InputStream is) {
+		if (is == null) {
+			return "";
+		}
+		
+		Writer writer = new StringWriter();
+		char[] buffer = new char[1024];
+		try {
+			Reader reader = new BufferedReader(new InputStreamReader(is));
+			int n;
+			while ((n = reader.read(buffer)) != -1) {
+				writer.write(buffer, 0, n);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return writer.toString();
+	}
+	
 	public void createIfNotExists() {
 		fleConfigDir.mkdirs();
 		if(!fleConfig.exists()) {
@@ -34,101 +58,8 @@ public class BasicsConfiguration {
 				PrintWriter prwConfig = new PrintWriter(fleConfig);
 				String configString;
 				if(strConfigType.equals("config")) {
-					configString =
-					"###############################\r\n" +
-					"##~#~#~#~#~#~#~#~#~#~#~#~#~#~##\r\n" +
-					"## Basics configuration file ##\r\n" +
-					"##~#~#~#~#~#~#~#~#~#~#~#~#~#~##\r\n" +
-					"###############################\r\n" +
-					"\r\n" +
-					"# Protection\r\n" +
-					"\r\n" +
-					"prevent:\r\n" +
-					"  block-ignition:\r\n" +
-					"    # Disables fire from spreading block to block\r\n" +
-					"    fire: false\r\n" +
-					"\r\n" +
-					"    # Disables lava to set blocks on fire\r\n" +
-					"    lava: false\r\n" +
-					"\r\n" +
-					"    # Disables players to use flint and steel to set blocks on fire\r\n" +
-					"    flint-and-steel: false\r\n" +
-					"\r\n" +
-					"    # Disables lightning to set blocks on fire\r\n" +
-					"    lightning: false\r\n" +
-					"\r\n" +
-					"  player-damage:\r\n" +
-					"    # Disables sand or gravel to damage (suffocate) players\r\n" +
-					"    suffocation: false\r\n" +
-					"\r\n" +
-					"    # Disables lava to hurt players\r\n" +
-					"    lava: false\r\n" +
-					"\r\n" +
-					"    # Disables fire to hurt players\r\n" +
-					"    fire: false\r\n" +
-					"\r\n" +
-					"    # Disables falling to hurt players\r\n" +
-					"    fall: false\r\n" +
-					"\r\n" +
-					"    # Disables monsters to hurt players\r\n" +
-					"    monster:\r\n" +
-					"      creeper: false\r\n" +
-					"      skeleton: false\r\n" +
-					"      slime: false\r\n" +
-					"      spider: false\r\n" +
-					"      zombie: false\r\n" +
-					"      zombiepigman: false\r\n" +
-					"\r\n" +
-					"  block-damage:\r\n" +
-					"    # Disables TNT to destroy blocks\r\n" +
-					"    tnt: false\r\n" +
-					"\r\n" +
-					"    # Disables creepers to destroy blocks\r\n" +
-					"    creeper: false\r\n" +
-					"\r\n" +
-					"  player:\r\n" +
-					"    # Disables players to place certain blocks\r\n" +
-					"    # (as example, we take TNT)\r\n" +
-					"    block-placement:\r\n" +
-					"      - 46\r\n" +
-					"\r\n" +
-					"    # Disables players to break certain blocks\r\n" +
-					"    # (TNT again as example, although breaking doesn't\r\n" +
-					"    #  have bad effects anymore)\r\n" +
-					"    block-breaking:\r\n" +
-					"      - 46\r\n" +
-					"\r\n" +
-					"    # Disables players to power (with redstone) certain blocks\r\n" +
-					"    # (TNT again)\r\n" +
-					"    block-power:\r\n" +
-					"      - 46\r\n" +
-					"\r\n" +
-					"    # Disables players to use (rightclick) certain items\r\n" +
-					"    # (for example, lava buckets)\r\n" +
-					"    item-usage:\r\n" +
-					"      - 327\r\n" +
-					"\r\n" +
-					"authentication:\r\n" +
-					"  # Enables players to register their names\r\n" +
-					"  register: true\r\n" +
-					"\r\n" +
-					"  # Forces players to register their names" +
-					"  force-register: false\r\n" +
-					"\r\n" +
-					"  # Autokick timeout if not authenticated (0 to disable)\r\n" +
-					"  kick-timeout: 0\r\n" +
-					"\r\n" +
-					"  # Database type: yaml, mysql or sqlite\r\n" +
-					"  database-type: yaml\r\n" +
-					"\r\n" +
-					"  # Database information (IGNORED IF USING YAML OR SQLITE)\r\n" +
-					"  username: minecraft\r\n" +
-					"  password: 1234\r\n" +
-					"  database: minecraft\r\n" +
-					"  table: basics\r\n" +
-					"\r\n" +
-					"# DON'T CHANGE THIS!\r\n" +
-					"config-version: 1\r\n";
+					InputStream isConfig = Basics.class.getResourceAsStream("/config.yml");
+					configString = convertStreamToString(isConfig);
 				} else if(strConfigType.equals("items")) {
 					configString = 
 						"stone: 1\r\n" +

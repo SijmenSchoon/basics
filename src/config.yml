@@ -1,0 +1,94 @@
+###############################
+##~#~#~#~#~#~#~#~#~#~#~#~#~#~##
+## Basics configuration file ##
+##~#~#~#~#~#~#~#~#~#~#~#~#~#~##
+###############################
+
+# Protection
+
+prevent:
+  block-ignition:
+    # Disables fire from spreading block to block
+    fire: false
+
+    # Disables lava to set blocks on fire
+    lava: false
+
+    # Disables players to use flint and steel to set blocks on fire
+    flint-and-steel: false
+
+    # Disables lightning to set blocks on fire
+    lightning: false
+
+  player-damage:
+    # Disables sand or gravel to damage (suffocate) players
+    suffocation: false
+
+    # Disables lava to hurt players
+    lava: false
+
+    # Disables fire to hurt players
+    fire: false
+
+    # Disables falling to hurt players
+    fall: false
+
+    # Disables monsters to hurt players
+    monster:
+      creeper: false
+      skeleton: false
+      slime: false
+      spider: false
+      zombie: false
+      zombiepigman: false
+
+  block-damage:
+    # Disables TNT to destroy blocks
+    tnt: false
+
+    # Disables creepers to destroy blocks
+    creeper: false
+
+  player:
+    # Disables players to place certain blocks
+    # (as example, we take TNT)
+    block-placement:
+      - 46
+
+    # Disables players to break certain blocks
+    # (TNT again as example, although breaking doesn't
+    #  have bad effects anymore)
+    block-breaking:
+      - 46
+
+    # Disables players to power (with redstone) certain blocks
+    # (TNT again)
+    block-power:
+      - 46
+
+    # Disables players to use (rightclick) certain items
+    # (for example, lava buckets)
+    item-usage:
+      - 327
+
+authentication:
+  # Enables players to register their names
+  register: true
+
+  # Forces players to register their names
+  force-register: false
+
+  # Autokick timeout if not authenticated (0 to disable)
+  kick-timeout: 0
+
+  # Database type: yaml, mysql or sqlite
+  database-type: yaml
+
+  # Database information (IGNORED IF USING YAML OR SQLITE)
+  username: minecraft
+  password: 1234
+  database: minecraft
+  table: basics
+
+# DON'T CHANGE THIS!
+config-version: 1;
