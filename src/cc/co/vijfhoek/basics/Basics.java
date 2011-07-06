@@ -101,7 +101,7 @@ public class Basics extends JavaPlugin {
 		log.info("[Basics] Sending bug report");
 		
 		try {
-			bsSocket = new Socket(InetAddress.getByName("bugsploder.god-division.co.cc"), 7878);
+			bsSocket = new Socket(InetAddress.getByName("bugsploder.vijfhoek.co.cc"), 7878);
 			PrintWriter writer = new PrintWriter(bsSocket.getOutputStream());
 			BufferedReader reader = new BufferedReader(new InputStreamReader(bsSocket.getInputStream()));
 			
