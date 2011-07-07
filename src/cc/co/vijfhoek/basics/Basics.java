@@ -55,14 +55,14 @@ public class Basics extends JavaPlugin {
 		cItems.load();
 		
 		enabled = true;
-		log.info("[Basics] Enabled " + pdf.getName() + " " + pdf.getVersion());
+		log.info("[Basics] Enabled v" + pdf.getVersion());
 	}
 	
 
 	
 	public void onDisable() {
 		enabled = false;
-		log.info("[Basics] Disabled " + pdf.getName() + " " + pdf.getVersion());
+		log.info("[Basics] Disabled v" + pdf.getVersion());
 	}
 	
 	public void registerEvents() {
