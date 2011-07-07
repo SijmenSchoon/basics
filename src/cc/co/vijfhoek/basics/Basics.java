@@ -39,7 +39,7 @@ public class Basics extends JavaPlugin {
 		pm = getServer().getPluginManager();
 		registerEvents();
 		
-		log = Logger.getLogger("Minecraft");
+		log = Logger.getLogger("Basics");
 		pdf = getDescription();
 		
 		BasicsVariables.basicsVersion = pdf.getVersion();
