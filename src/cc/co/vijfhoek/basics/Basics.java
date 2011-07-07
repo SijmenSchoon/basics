@@ -31,6 +31,8 @@ public class Basics extends JavaPlugin {
 	private Socket bsSocket;
 	
 	public Configuration cConfig;
+	public Configuration cItems;
+	
 	public boolean enabled;
 	
 	public void onEnable() {
@@ -45,13 +47,12 @@ public class Basics extends JavaPlugin {
 		BasicsConfiguration bcfConfig = new BasicsConfiguration("config");	
 		bcfConfig.createIfNotExists();
 		cConfig = bcfConfig.getConfiguration();
+		cConfig.load();
 		
-		try {
-			cConfig.load();
-		} catch (Exception e) {
-			log.severe("[Basics] Couldn't load configuration file!");
-			return;
-		}
+		BasicsConfiguration bcfItems = new BasicsConfiguration("items");
+		bcfItems.createIfNotExists();
+		cItems = bcfItems.getConfiguration();
+		cItems.load();
 		
 		enabled = true;
 	}
