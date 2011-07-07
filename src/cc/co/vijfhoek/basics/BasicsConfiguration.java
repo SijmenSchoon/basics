@@ -18,6 +18,9 @@ public class BasicsConfiguration {
 		} else if(configType.equals("items")) {
 			fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "items.yml");
 			strConfigType = configType;
+		} else if(configType.equals("accounts")) {
+			fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "accounts.yml");
+			strConfigType = configType;
 		}
 	}
 	
@@ -63,8 +66,11 @@ public class BasicsConfiguration {
 				} else if(strConfigType.equals("items")) {
 					InputStream isConfig = Basics.class.getResourceAsStream("/items.yml");
 					configString = convertStreamToString(isConfig);
+				} else if(strConfigType.equals("accounts")) {
+					InputStream isConfig = Basics.class.getResourceAsStream("/accounts.yml");
+					configString = convertStreamToString(isConfig);
 				} else {
-					configString = "";
+					return;
 				}
 				
 				prwConfig.write(configString);

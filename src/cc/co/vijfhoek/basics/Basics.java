@@ -32,6 +32,7 @@ public class Basics extends JavaPlugin {
 	
 	public Configuration cConfig;
 	public Configuration cItems;
+	public Configuration cAccounts;
 	
 	public boolean enabled;
 	
@@ -48,6 +49,13 @@ public class Basics extends JavaPlugin {
 		bcfConfig.createIfNotExists();
 		cConfig = bcfConfig.getConfiguration();
 		cConfig.load();
+		
+		if (cConfig.getString("authentication.database-type").equalsIgnoreCase("yaml")) {
+			BasicsConfiguration bcfAccounts = new BasicsConfiguration("accounts");
+			bcfAccounts.createIfNotExists();
+			cAccounts = bcfAccounts.getConfiguration();
+			cAccounts.load();
+		}
 		
 		BasicsConfiguration bcfItems = new BasicsConfiguration("items");
 		bcfItems.createIfNotExists();
