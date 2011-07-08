@@ -2,10 +2,12 @@ package cc.co.vijfhoek.basics;
 
 import java.util.*;
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.config.*;
 
 public class BasicsAccounts {
 	public List<String> frozenPlayers;
+	public HashMap<String, HashMap<Integer, ItemStack>> stolenInventories;
 	
 	private String strDatabaseType;
 	private Basics basics;
@@ -16,6 +18,7 @@ public class BasicsAccounts {
 		strDatabaseType = basics.bcfConfig.getConfiguration().getString("authentication.database-type");
 		cfgAccounts = basics.bcfAccounts.getConfiguration();
 		frozenPlayers = new LinkedList<String>();
+		stolenInventories = new HashMap<String, HashMap<Integer,ItemStack>>();
 	}
 	
 	/* Return codes:
@@ -56,7 +59,6 @@ public class BasicsAccounts {
 		if (cfgAccounts.getString(name + ".password") == null) return 1;
 		if (cfgAccounts.getInt(name + ".password", 0) != password.hashCode()) return 2;
 		cfgAccounts.setProperty(name + ".lastaccessed", Integer.getInteger(Long.toString((new Date()).getTime())));
-		frozenPlayers.remove(name);
 		
 		cfgAccounts.save();
 		return 0;
@@ -81,14 +83,29 @@ public class BasicsAccounts {
 	/* Return codes:
 	 *   0 - Frozen
 	 *   1 - Not frozen
-	 *   2 - Checking failed
-	 * 
-	 * TODO:
-	 *     - Make the method load once in the X minutes to lower IO access
 	 */
 	public int checkFrozen(String name) {
-		if (!strDatabaseType.equalsIgnoreCase("yaml")) return 2;
 		if (frozenPlayers.contains(name)) return 0;
 		return 1;
+	}
+	
+	/* Return codes:
+	 *   0 - Successfully frozen
+	 *   1 - Already frozen
+	 */
+	public int freeze(String name) {
+		if (frozenPlayers.contains(name)) return 1;
+		frozenPlayers.add(name);
+		return 0;
+	}
+	
+	/* Return codes:
+	 *   0 - Successfully unfrozen
+	 *   1 - Already unfrozen
+	 */
+	public int unfreeze(String name) {
+		if (!frozenPlayers.contains(name)) return 1;
+		frozenPlayers.remove(name);
+		return 0;
 	}
 }
