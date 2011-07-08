@@ -10,11 +10,11 @@ public class BasicsEntityListener extends EntityListener {
 		Basics basics = new Basics();
 		Entity entity = event.getEntity();
 		if(entity instanceof TNTPrimed) {
-			if (basics.cConfig.getBoolean("prevent.block-damage.tnt", false)) {
+			if (basics.bcfConfig.getConfiguration().getBoolean("prevent.block-damage.tnt", false)) {
 				event.setCancelled(true);
 			}
 		} else if(entity instanceof Creeper) {
-			if (basics.cConfig.getBoolean("prevent.block-damage.creeper", false)) {
+			if (basics.bcfConfig.getConfiguration().getBoolean("prevent.block-damage.creeper", false)) {
 				event.setCancelled(true);
 			}
 		}
