@@ -77,4 +77,18 @@ public class BasicsAccounts {
 		if (cfgAccounts.getString(name + ".password") == null) return 1;
 		return 0;
 	}
+	
+	/* Return codes:
+	 *   0 - Frozen
+	 *   1 - Not frozen
+	 *   2 - Checking failed
+	 * 
+	 * TODO:
+	 *     - Make the method load once in the X minutes to lower IO access
+	 */
+	public int checkFrozen(String name) {
+		if (!strDatabaseType.equalsIgnoreCase("yaml")) return 2;
+		if (frozenPlayers.contains(name)) return 0;
+		return 1;
+	}
 }
