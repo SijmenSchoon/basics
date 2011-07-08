@@ -19,7 +19,6 @@ import org.bukkit.event.*;
 import org.bukkit.event.Event.*;
 import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.*;
-import org.bukkit.util.config.*;
 
 import cc.co.vijfhoek.basics.commands.*;
 import cc.co.vijfhoek.basics.listeners.*;
