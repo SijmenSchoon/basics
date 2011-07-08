@@ -30,9 +30,9 @@ public class Basics extends JavaPlugin {
 	private PluginDescriptionFile pdf;
 	private Socket bsSocket;
 	
-	public Configuration cConfig;
-	public Configuration cItems;
-	public Configuration cAccounts;
+	public BasicsConfiguration bcfConfig;
+	public BasicsConfiguration bcfItems;
+	public BasicsConfiguration bcfAccounts;
 	
 	public boolean enabled;
 	
@@ -45,22 +45,17 @@ public class Basics extends JavaPlugin {
 		
 		BasicsVariables.basicsVersion = pdf.getVersion();
 		
-		BasicsConfiguration bcfConfig = new BasicsConfiguration("config");	
+		bcfConfig = new BasicsConfiguration("config");	
 		bcfConfig.createIfNotExists();
-		cConfig = bcfConfig.getConfiguration();
-		cConfig.load();
+		bcfConfig.getConfiguration().load();
 		
-		if (cConfig.getString("authentication.database-type").equalsIgnoreCase("yaml")) {
-			BasicsConfiguration bcfAccounts = new BasicsConfiguration("accounts");
+		if (bcfConfig.getConfiguration().getString("authentication.database-type").equalsIgnoreCase("yaml")) {
+			bcfAccounts = new BasicsConfiguration("accounts");
 			bcfAccounts.createIfNotExists();
-			cAccounts = bcfAccounts.getConfiguration();
-			cAccounts.load();
 		}
 		
-		BasicsConfiguration bcfItems = new BasicsConfiguration("items");
+		bcfItems = new BasicsConfiguration("items");
 		bcfItems.createIfNotExists();
-		cItems = bcfItems.getConfiguration();
-		cItems.load();
 		
 		enabled = true;
 		log.info("[Basics] Enabled v" + pdf.getVersion());
