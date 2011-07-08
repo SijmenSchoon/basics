@@ -3,7 +3,7 @@ package cc.co.vijfhoek.basics.listeners;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.*;
 
-import cc.co.vijfhoek.basics.Basics;
+import cc.co.vijfhoek.basics.*;
 
 public class BasicsEntityListener extends EntityListener {
 	public void onEntityExplode(EntityExplodeEvent event) {
@@ -17,6 +17,18 @@ public class BasicsEntityListener extends EntityListener {
 			if (basics.bcfConfig.getConfiguration().getBoolean("prevent.block-damage.creeper", false)) {
 				event.setCancelled(true);
 			}
+		}
+	}
+	
+	public void onEntityTarget(EntityTargetEvent event) {
+		Entity entTarget = event.getTarget();
+		if (!(entTarget instanceof Player)) return;
+		
+		Player plyTarget = (Player)entTarget;
+		Basics basics = new Basics();
+		
+		if (basics.basicsAccounts.frozenPlayers.contains(plyTarget.getName())) {
+			event.setCancelled(true);
 		}
 	}
 }

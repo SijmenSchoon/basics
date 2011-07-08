@@ -32,7 +32,7 @@ public class Basics extends JavaPlugin {
 	public BasicsConfiguration bcfConfig;
 	public BasicsConfiguration bcfItems;
 	public BasicsConfiguration bcfAccounts;
-	
+	public BasicsAccounts basicsAccounts;
 	public boolean enabled;
 	
 	public void onEnable() {
@@ -48,13 +48,17 @@ public class Basics extends JavaPlugin {
 		bcfConfig.createIfNotExists();
 		bcfConfig.getConfiguration().load();
 		
-		if (bcfConfig.getConfiguration().getString("authentication.database-type").equalsIgnoreCase("yaml")) {
-			bcfAccounts = new BasicsConfiguration("accounts");
-			bcfAccounts.createIfNotExists();
+		if (bcfConfig.getConfiguration().getBoolean("authentication.register", true)) {
+			if (bcfConfig.getConfiguration().getString("authentication.database-type").equalsIgnoreCase("yaml")) {
+				bcfAccounts = new BasicsConfiguration("accounts");
+				bcfAccounts.createIfNotExists();
+			}
 		}
 		
 		bcfItems = new BasicsConfiguration("items");
 		bcfItems.createIfNotExists();
+		
+		basicsAccounts = new BasicsAccounts();
 		
 		enabled = true;
 		log.info("[Basics] Enabled v" + pdf.getVersion());
@@ -70,6 +74,7 @@ public class Basics extends JavaPlugin {
 	public void registerEvents() {
 		BasicsEntityListener entityListener = new BasicsEntityListener();
 		pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Priority.High, this);
+		pm.registerEvent(Event.Type.ENTITY_TARGET, entityListener, Priority.High, this);
 		
 		//BasicsBlockListener blockListener = new BasicsBlockListener();
 	}
