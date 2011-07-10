@@ -2,7 +2,7 @@ package cc.co.vijfhoek.basics;
 
 import java.util.*;
 
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 import org.bukkit.util.config.*;
 
 public class BasicsAccounts {
@@ -14,7 +14,18 @@ public class BasicsAccounts {
 	private Configuration cfgAccounts;
 	
 	public BasicsAccounts() {
-		if (!basics.bcfConfig.getConfiguration().getBoolean("authentication.register", true)) return;
+		System.out.println();
+		Configuration config = null;
+		try {
+			config = basics.bcfConfig.getConfiguration();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("-=-=-=-=-=-=-=-");
+			System.out.println(e.getMessage());
+			System.out.println("-=-=-=-=-=-=-=-");
+			System.out.println(e.getCause().getMessage());
+		}
+		if (!config.getBoolean("authentication.register", true)) return;
 		strDatabaseType = basics.bcfConfig.getConfiguration().getString("authentication.database-type");
 		cfgAccounts = basics.bcfAccounts.getConfiguration();
 		frozenPlayers = new LinkedList<String>();

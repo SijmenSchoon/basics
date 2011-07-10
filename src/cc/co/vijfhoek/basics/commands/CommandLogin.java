@@ -1,12 +1,11 @@
 package cc.co.vijfhoek.basics.commands;
 
-import java.util.HashMap;
+import java.util.*;
 
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 
 import cc.co.vijfhoek.basics.*;
 
@@ -14,6 +13,9 @@ public class CommandLogin {
 	private Basics basics;
 	
 	public CommandLogin(CommandSender sender, String[] args) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("This command is for players only");
+		}
 		int returnValue = basics.basicsAccounts.login(((Player)sender).getName(), args[0]);
 		if (basics.basicsAccounts.checkFrozen(((Player)sender).getName()) == 1) {
 			sender.sendMessage(ChatColor.GRAY + "You already are logged in.");

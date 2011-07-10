@@ -76,7 +76,14 @@ public class Basics extends JavaPlugin {
 		pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Priority.High, this);
 		pm.registerEvent(Event.Type.ENTITY_TARGET, entityListener, Priority.High, this);
 		
-		//BasicsBlockListener blockListener = new BasicsBlockListener();
+		BasicsBlockListener blockListener = new BasicsBlockListener();
+		pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.High, this);
+		pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Priority.High, this);
+		
+		BasicsPlayerListener playerListener = new BasicsPlayerListener();
+		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Priority.High, this);
+		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.High, this);
+		
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] cmdArgs) {

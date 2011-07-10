@@ -7,6 +7,7 @@ import org.bukkit.util.config.Configuration;
 public class BasicsConfiguration {
 	private File fleConfig;
 	private File fleConfigDir;
+	private Configuration cfgConfig;
 	private String strConfigType;
 	
 	public BasicsConfiguration(String configType) {
@@ -21,12 +22,15 @@ public class BasicsConfiguration {
 		} else if(configType.equals("accounts")) {
 			fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "accounts.yml");
 			strConfigType = configType;
+		} else {
+			return;
 		}
+		
+		cfgConfig = new Configuration(fleConfig);
 	}
 	
 	public Configuration getConfiguration() {
-		Configuration config = new Configuration(fleConfig);
-		return config;
+		return cfgConfig;
 	}
 	
 	public String convertStreamToString(InputStream is) {
