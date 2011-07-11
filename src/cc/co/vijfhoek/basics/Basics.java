@@ -10,8 +10,8 @@
 
 package cc.co.vijfhoek.basics;
 
-import java.io.*;
-import java.net.*;
+//import java.io.*;
+//import java.net.*;
 import java.util.logging.*;
 
 import org.bukkit.command.*;
@@ -19,7 +19,9 @@ import org.bukkit.event.*;
 import org.bukkit.event.Event.*;
 import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.*;
+import org.bukkit.util.config.*;
 
+import cc.co.vijfhoek.basics.BasicsConfiguration.*;
 import cc.co.vijfhoek.basics.commands.*;
 import cc.co.vijfhoek.basics.listeners.*;
 
@@ -27,12 +29,13 @@ public class Basics extends JavaPlugin {
 	private Logger log;
 	private PluginManager pm;
 	private PluginDescriptionFile pdf;
-	private Socket bsSocket;
+	//private Socket bsSocket;
+	private BasicsConfiguration basicsConfiguration;
 	
-	public BasicsConfiguration bcfConfig;
-	public BasicsConfiguration bcfItems;
-	public BasicsConfiguration bcfAccounts;
 	public BasicsAccounts basicsAccounts;
+	public Configuration cfgConfig;
+	public Configuration cfgItems;
+	public Configuration cfgAccounts;
 	public boolean enabled;
 	
 	public void onEnable() {
@@ -44,19 +47,15 @@ public class Basics extends JavaPlugin {
 		
 		BasicsVariables.basicsVersion = pdf.getVersion();
 		
-		bcfConfig = new BasicsConfiguration("config");	
-		bcfConfig.createIfNotExists();
-		bcfConfig.getConfiguration().load();
+		basicsConfiguration.createConfig(ConfigType.CONFIG);
+		basicsConfiguration.createConfig(ConfigType.ITEMS);
 		
-		if (bcfConfig.getConfiguration().getBoolean("authentication.register", true)) {
-			if (bcfConfig.getConfiguration().getString("authentication.database-type").equalsIgnoreCase("yaml")) {
-				bcfAccounts = new BasicsConfiguration("accounts");
-				bcfAccounts.createIfNotExists();
+		if (cfgConfig.getBoolean("authentication.register", true)) {
+			if (cfgConfig.getString("authentication.database-type").equalsIgnoreCase("yaml")) {
+				basicsConfiguration.createConfig(ConfigType.ACCOUNTS);
+				cfgAccounts = new Configuration(basicsConfiguration.getFile(ConfigType.ACCOUNTS));
 			}
 		}
-		
-		bcfItems = new BasicsConfiguration("items");
-		bcfItems.createIfNotExists();
 		
 		basicsAccounts = new BasicsAccounts();
 		
@@ -87,8 +86,6 @@ public class Basics extends JavaPlugin {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] cmdArgs) {
-		
-		
 		if (cmdLabel.equalsIgnoreCase("spawn")) {
 			return (new CommandSpawn(sender)).returnValue;
 		}
@@ -113,7 +110,7 @@ public class Basics extends JavaPlugin {
 		return false;
 	}
 	
-	public void reportBug(Exception e) { // TODO Clean this up
+/*	public void reportBug(Exception e) { // TODO Clean this up
 		if (BasicsVariables.MODIFIED) return;
 		log.info("[Basics] Sending bug report");
 		
@@ -173,5 +170,5 @@ public class Basics extends JavaPlugin {
 			try { Thread.sleep(1000); } catch (Exception e2) {}
 			try { bsSocket.close();   } catch (Exception e2) {}
 		}
-	}
+	}*/
 }

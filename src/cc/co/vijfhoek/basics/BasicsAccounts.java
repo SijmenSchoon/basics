@@ -1,5 +1,6 @@
 package cc.co.vijfhoek.basics;
 
+import java.io.File;
 import java.util.*;
 
 import org.bukkit.inventory.*;
@@ -10,24 +11,15 @@ public class BasicsAccounts {
 	public HashMap<String, HashMap<Integer, ItemStack>> stolenInventories;
 	
 	private String strDatabaseType;
-	private Basics basics;
 	private Configuration cfgAccounts;
+	private Configuration cfgConfig;
 	
 	public BasicsAccounts() {
 		System.out.println();
-		Configuration config = null;
-		try {
-			config = basics.bcfConfig.getConfiguration();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("-=-=-=-=-=-=-=-");
-			System.out.println(e.getMessage());
-			System.out.println("-=-=-=-=-=-=-=-");
-			System.out.println(e.getCause().getMessage());
-		}
-		if (!config.getBoolean("authentication.register", true)) return;
-		strDatabaseType = basics.bcfConfig.getConfiguration().getString("authentication.database-type");
-		cfgAccounts = basics.bcfAccounts.getConfiguration();
+		cfgConfig = new Configuration(new File("plugins" + File.separator + "Basics" + File.separator + "config.yml"));
+		if (!cfgConfig.getBoolean("authentication.register", true)) return;
+		strDatabaseType = cfgConfig.getString("authentication.database-type");
+		cfgAccounts = new Configuration(new File("plugins" + File.separator + "Basics" + File.separator + "accounts.yml"));
 		frozenPlayers = new LinkedList<String>();
 		stolenInventories = new HashMap<String, HashMap<Integer,ItemStack>>();
 	}

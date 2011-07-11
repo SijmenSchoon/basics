@@ -2,38 +2,12 @@ package cc.co.vijfhoek.basics;
 
 import java.io.*;
 
-import org.bukkit.util.config.Configuration;
-
 public class BasicsConfiguration {
-	private File fleConfig;
-	private File fleConfigDir;
-	private Configuration cfgConfig;
-	private String strConfigType;
-	
-	public BasicsConfiguration(String configType) {
-		fleConfigDir = new File("plugins" + File.separator + "Basics");
-		
-		if(configType.equals("config")) {
-			fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "config.yml");
-			strConfigType = configType;
-		} else if(configType.equals("items")) {
-			fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "items.yml");
-			strConfigType = configType;
-		} else if(configType.equals("accounts")) {
-			fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "accounts.yml");
-			strConfigType = configType;
-		} else {
-			return;
-		}
-		
-		cfgConfig = new Configuration(fleConfig);
+	public enum ConfigType {
+		ACCOUNTS, CONFIG, ITEMS
 	}
 	
-	public Configuration getConfiguration() {
-		return cfgConfig;
-	}
-	
-	public String convertStreamToString(InputStream is) {
+	private String convertStreamToString(InputStream is) {
 		if (is == null) {
 			return "";
 		}
@@ -57,34 +31,62 @@ public class BasicsConfiguration {
 		return writer.toString();
 	}
 	
-	public void createIfNotExists() {
-		fleConfigDir.mkdirs();
-		if(!fleConfig.exists()) {
-			try {
-				fleConfig.createNewFile();
-				PrintWriter prwConfig = new PrintWriter(fleConfig);
-				String configString;
-				if(strConfigType.equals("config")) {
-					InputStream isConfig = Basics.class.getResourceAsStream("/config.yml");
-					configString = convertStreamToString(isConfig);
-				} else if(strConfigType.equals("items")) {
-					InputStream isConfig = Basics.class.getResourceAsStream("/items.yml");
-					configString = convertStreamToString(isConfig);
-				} else if(strConfigType.equals("accounts")) {
-					InputStream isConfig = Basics.class.getResourceAsStream("/accounts.yml");
-					configString = convertStreamToString(isConfig);
-				} else {
-					return;
-				}
+	public void createFolders() {
+		new File("plugins" + File.separator + "Basics").mkdirs();
+	}
+	
+	public File getFile(ConfigType configType) {
+		if (configType == ConfigType.ACCOUNTS) {
+			return (new File("plugins" + File.separator + "Basics" + File.separator + "accounts.yml"));
+		} else if (configType == ConfigType.CONFIG) {
+			return (new File("plugins" + File.separator + "Basics" + File.separator + "config.yml"));
+		} else if (configType == ConfigType.ITEMS) {
+			return (new File("plugins" + File.separator + "Basics" + File.separator + "items.yml"));
+		}
+		return null;
+	}
+	
+	public void createConfig(ConfigType configType) {
+		try {
+			if (configType == ConfigType.ACCOUNTS) {
+				File fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "accounts.yml");
+				if (fleConfig.exists()) return;
 				
-				prwConfig.write(configString);
+				InputStream isConfig = Basics.class.getResourceAsStream("/accounts.yml");
+				PrintWriter prwConfig = new PrintWriter(fleConfig);
+				String strConfig = convertStreamToString(isConfig);
+				
+				fleConfig.createNewFile();
+				prwConfig.write(strConfig);
 				prwConfig.flush();
 				prwConfig.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else if (configType == ConfigType.CONFIG) {
+				File fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "config.yml");
+				if (fleConfig.exists()) return;
+				
+				InputStream isConfig = Basics.class.getResourceAsStream("/config.yml");
+				PrintWriter prwConfig = new PrintWriter(fleConfig);
+				String strConfig = convertStreamToString(isConfig);
+				
+				fleConfig.createNewFile();
+				prwConfig.write(strConfig);
+				prwConfig.flush();
+				prwConfig.close();
+			} else if (configType == ConfigType.ITEMS) {
+				File fleConfig = new File("plugins" + File.separator + "Basics" + File.separator + "items.yml");
+				if (fleConfig.exists()) return;
+				
+				InputStream isConfig = Basics.class.getResourceAsStream("/items.yml");
+				PrintWriter prwConfig = new PrintWriter(fleConfig);
+				String strConfig = convertStreamToString(isConfig);
+				
+				fleConfig.createNewFile();
+				prwConfig.write(strConfig);
+				prwConfig.flush();
+				prwConfig.close();
 			}
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 	}
 }
